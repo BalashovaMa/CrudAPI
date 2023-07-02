@@ -4,11 +4,12 @@
   "description": "simple CRUD API",
   "main": "index.js",
   "scripts": {
-    "start": "node dist/index.js",
-    "dev": "nodemon src/index.ts",
+    "start:dev": "nodemon --watch 'src/**/*.ts' --exec ts-node-dev src/index.ts",
+    "start:prod": "npm run build && node dist/index.js",
+    "build": "tsc",
     "lint": "eslint . --ext .ts",
-    "format": "prettier --write \"src/**/*.ts\"",
-    "build": "tsc"
+    "format": "prettier --write \"src/**/*.ts\""
+    
   },
   "author": "Balashova Maryna",
   "license": "ISC",
