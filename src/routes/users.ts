@@ -57,6 +57,44 @@ export const getAllUsers = (req: Request, res: Response) => {
     });
   };
 
+  export const updateUser = (req: Request, res: Response) => {
+    const userId = req.url!.split('/').pop() as string;
+  
+    if (!isValidUUID(userId)) {
+      res.writeHead(400, { 'Content-Type': 'application/json' });
+      return res.end(JSON.stringify({ error: 'Invalid userId' }));
+    }
+  
+    let body = '';
+  
+    req.on('data', (chunk) => {
+      body += chunk;
+    });
+  
+    req.on('end', () => {
+      const { username, age, hobbies } = JSON.parse(body);
+  
+      const userIndex = users.findIndex((user) => user.id === userId);
+  
+      if (userIndex === -1) {
+        res.writeHead(404, { 'Content-Type': 'application/json' });
+        return res.end(JSON.stringify({ error: 'User not found' }));
+      }
+  
+      const updatedUser: User = {
+        ...users[userIndex],
+        username: username || users[userIndex].username,
+        age: age || users[userIndex].age,
+        hobbies: hobbies || users[userIndex].hobbies,
+      };
+  
+      users[userIndex] = updatedUser;
+  
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(updatedUser));
+    });
+  };
+
   export const deleteUser = (req: Request, res: Response) => {
     const userId = req.url!.split('/').pop() as string;
   
