@@ -4,7 +4,11 @@
   "description": "simple CRUD API",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node dist/index.js",
+    "dev": "ts-node-dev --respawn --transpileOnly src/index.ts",
+    "lint": "eslint . --ext .ts",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "build": "tsc"
   },
   "author": "Balashova Maryna",
   "license": "ISC",
