@@ -1,7 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteUser = exports.updateUser = exports.createUser = exports.getUserById = exports.getAllUsers = void 0;
-const uuid_1 = require("../utils/uuid");
+const uuid_1 = require("uuid");
+const uuid_2 = require("../utils/uuid");
 let users = [];
 const getAllUsers = (req, res) => {
     res.writeHead(200, { 'Content-Type': 'application/json' });
@@ -10,7 +11,7 @@ const getAllUsers = (req, res) => {
 exports.getAllUsers = getAllUsers;
 const getUserById = (req, res) => {
     const userId = req.url.split('/').pop();
-    if (!(0, uuid_1.isValidUUID)(userId)) {
+    if (!(0, uuid_2.isValidUUID)(userId)) {
         res.writeHead(400, { 'Content-Type': 'application/json' });
         return res.end(JSON.stringify({ error: 'Invalid userId' }));
     }
@@ -35,7 +36,7 @@ const createUser = (req, res) => {
             return res.end(JSON.stringify({ error: 'Username and age are required' }));
         }
         const newUser = {
-            id: uuidv4(),
+            id: (0, uuid_1.v4)(),
             username,
             age,
             hobbies: hobbies || [],
@@ -48,7 +49,7 @@ const createUser = (req, res) => {
 exports.createUser = createUser;
 const updateUser = (req, res) => {
     const userId = req.url.split('/').pop();
-    if (!(0, uuid_1.isValidUUID)(userId)) {
+    if (!(0, uuid_2.isValidUUID)(userId)) {
         res.writeHead(400, { 'Content-Type': 'application/json' });
         return res.end(JSON.stringify({ error: 'Invalid userId' }));
     }
@@ -72,7 +73,7 @@ const updateUser = (req, res) => {
 exports.updateUser = updateUser;
 const deleteUser = (req, res) => {
     const userId = req.url.split('/').pop();
-    if (!(0, uuid_1.isValidUUID)(userId)) {
+    if (!(0, uuid_2.isValidUUID)(userId)) {
         res.writeHead(400, { 'Content-Type': 'application/json' });
         return res.end(JSON.stringify({ error: 'Invalid userId' }));
     }

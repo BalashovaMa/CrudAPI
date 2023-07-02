@@ -1,15 +1,16 @@
-import { Request, Response } from 'http';
+import { IncomingMessage, ServerResponse } from 'http';
 import { User } from '../models/User';
+import { v4 as uuidv4 } from 'uuid';
 import { isValidUUID } from '../utils/uuid';
 
 let users: User[] = [];
 
-export const getAllUsers = (req: Request, res: Response) => {
+export const getAllUsers = (req: IncomingMessage, res: ServerResponse) => {
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify(users));
   };
 
-  export const getUserById = (req: Request, res: Response) => {
+  export const getUserById = (req: IncomingMessage, res: ServerResponse) => {
     const userId = req.url!.split('/').pop() as string;
   
     if (!isValidUUID(userId)) {
@@ -28,10 +29,10 @@ export const getAllUsers = (req: Request, res: Response) => {
     res.end(JSON.stringify(user));
   };
 
-  export const createUser = (req: Request, res: Response) => {
+  export const createUser = (req: IncomingMessage, res: ServerResponse) => {
     let body = '';
   
-    req.on('data', (chunk) => {
+    req.on('data', (chunk: Buffer | string) => {
       body += chunk;
     });
   
@@ -57,7 +58,7 @@ export const getAllUsers = (req: Request, res: Response) => {
     });
   };
 
-  export const updateUser = (req: Request, res: Response) => {
+  export const updateUser = (req: IncomingMessage, res: ServerResponse) => {
     const userId = req.url!.split('/').pop() as string;
   
     if (!isValidUUID(userId)) {
@@ -67,7 +68,7 @@ export const getAllUsers = (req: Request, res: Response) => {
   
     let body = '';
   
-    req.on('data', (chunk) => {
+    req.on('data', (chunk: Buffer | string) => {
       body += chunk;
     });
   
@@ -95,7 +96,7 @@ export const getAllUsers = (req: Request, res: Response) => {
     });
   };
 
-  export const deleteUser = (req: Request, res: Response) => {
+  export const deleteUser = (req: IncomingMessage, res: ServerResponse) => {
     const userId = req.url!.split('/').pop() as string;
   
     if (!isValidUUID(userId)) {
