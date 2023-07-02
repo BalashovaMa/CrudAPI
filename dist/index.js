@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const http_1 = require("http");
 const users_1 = require("./routes/users");
+const errorHandler_1 = require("./middlewares/errorHandler");
 const port = process.env.PORT || 3000;
 const server = (0, http_1.createServer)((req, res) => {
     const { pathname } = new URL(req.url, `http://${req.headers.host}`);
@@ -23,6 +24,9 @@ const server = (0, http_1.createServer)((req, res) => {
     else {
         (0, users_1.handleNotFound)(req, res);
     }
+});
+server.on('error', (error) => {
+    (0, errorHandler_1.handleServerError)(error, {}, {});
 });
 server.listen(port, () => {
     console.log(`Server started on port ${port}`);

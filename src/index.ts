@@ -1,6 +1,6 @@
 import { createServer, Server, IncomingMessage, ServerResponse,  } from 'http';
 import { getAllUsers, getUserById, createUser, updateUser, deleteUser, handleNotFound } from './routes/users';
-
+import { handleServerError } from './middlewares/errorHandler';
 
 const port = process.env.PORT || 3000;
 
@@ -20,9 +20,12 @@ const server: Server = createServer((req: IncomingMessage, res: ServerResponse) 
     } else if (pathname.startsWith('/api/users/') && req.method === 'DELETE') {
       deleteUser(req, res);
     } else {
-      res.writeHead(404, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({ error: 'Route not found' }));
+      handleNotFound(req, res);
     }
+  });
+
+  server.on('error', (error: Error) => {
+    handleServerError(error, {} as IncomingMessage, {} as ServerResponse);
   });
 
   
