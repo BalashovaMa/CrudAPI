@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteUser = exports.updateUser = exports.createUser = exports.getUserById = exports.getAllUsers = void 0;
+exports.handleNotFound = exports.deleteUser = exports.updateUser = exports.createUser = exports.getUserById = exports.getAllUsers = void 0;
 const uuid_1 = require("uuid");
 const uuid_2 = require("../utils/uuid");
 let users = [];
@@ -87,3 +87,8 @@ const deleteUser = (req, res) => {
     res.end();
 };
 exports.deleteUser = deleteUser;
+const handleNotFound = (req, res) => {
+    res.writeHead(404, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ error: 'Not Found' }));
+};
+exports.handleNotFound = handleNotFound;

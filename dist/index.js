@@ -21,8 +21,7 @@ const server = (0, http_1.createServer)((req, res) => {
         (0, users_1.deleteUser)(req, res);
     }
     else {
-        res.writeHead(404, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ error: 'Route not found' }));
+        (0, users_1.handleNotFound)(req, res);
     }
 });
 server.listen(port, () => {

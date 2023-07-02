@@ -1,5 +1,5 @@
-import { createServer, Server, IncomingMessage, ServerResponse } from 'http';
-import { getAllUsers, getUserById, createUser, updateUser, deleteUser } from './routes/users';
+import { createServer, Server, IncomingMessage, ServerResponse,  } from 'http';
+import { getAllUsers, getUserById, createUser, updateUser, deleteUser, handleNotFound } from './routes/users';
 
 
 const port = process.env.PORT || 3000;
@@ -24,6 +24,8 @@ const server: Server = createServer((req: IncomingMessage, res: ServerResponse) 
       res.end(JSON.stringify({ error: 'Route not found' }));
     }
   });
+
+  
   
   server.listen(port, () => {
     console.log(`Server started on port ${port}`);
