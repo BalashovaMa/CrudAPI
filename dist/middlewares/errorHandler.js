@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.handleServerError = void 0;
+exports.handleNotFound = exports.handleServerError = void 0;
 const handleServerError = (error, req, res) => {
     console.error('Server Error:', error);
     const statusCode = 500;
@@ -9,3 +9,8 @@ const handleServerError = (error, req, res) => {
     res.end(JSON.stringify({ error: errorMessage }));
 };
 exports.handleServerError = handleServerError;
+const handleNotFound = (req, res) => {
+    res.writeHead(404, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ error: 'Not Found' }));
+};
+exports.handleNotFound = handleNotFound;

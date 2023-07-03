@@ -1,14 +1,19 @@
-import { createServer, Server, IncomingMessage, ServerResponse,  } from 'http';
-import { getAllUsers, getUserById, createUser, updateUser, deleteUser, handleNotFound } from './routes/users';
-import { handleServerError } from './middlewares/errorHandler';
+import { createServer, Server, IncomingMessage, ServerResponse } from 'http';
+import {
+  getAllUsers,
+  getUserById,
+  createUser,
+  updateUser,
+  deleteUser,
+} from './routes/users';
+import { handleServerError, handleNotFound } from './middlewares/errorHandler';
 
 const port = process.env.PORT || 3000;
 
-const server: Server = createServer((req: IncomingMessage, res: ServerResponse) => {
-    
+const server: Server = createServer(
+  (req: IncomingMessage, res: ServerResponse) => {
     const { pathname } = new URL(req.url!, `http://${req.headers.host}`);
-  
-    
+
     if (pathname === '/api/users' && req.method === 'GET') {
       getAllUsers(req, res);
     } else if (pathname.startsWith('/api/users/') && req.method === 'GET') {
@@ -22,14 +27,17 @@ const server: Server = createServer((req: IncomingMessage, res: ServerResponse) 
     } else {
       handleNotFound(req, res);
     }
-  });
+  },
+);
 
-  server.on('error', (error: Error) => {
-    handleServerError(error, {} as IncomingMessage, {} as ServerResponse);
-  });
+server.on('error', (error: Error) => {
+  handleServerError(error, {} as IncomingMessage, {} as ServerResponse);
+});
 
-  
-  
+if (process.env.NODE_ENV !== 'test') {
   server.listen(port, () => {
-    console.log(`Server started on port ${port}`);
+    console.log(`Server is running on http://localhost:${port}`);
   });
+}
+
+export default server;

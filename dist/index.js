@@ -22,12 +22,15 @@ const server = (0, http_1.createServer)((req, res) => {
         (0, users_1.deleteUser)(req, res);
     }
     else {
-        (0, users_1.handleNotFound)(req, res);
+        (0, errorHandler_1.handleNotFound)(req, res);
     }
 });
 server.on('error', (error) => {
     (0, errorHandler_1.handleServerError)(error, {}, {});
 });
-server.listen(port, () => {
-    console.log(`Server started on port ${port}`);
-});
+if (process.env.NODE_ENV !== 'test') {
+    server.listen(port, () => {
+        console.log(`Server is running on http://localhost:${port}`);
+    });
+}
+exports.default = server;
